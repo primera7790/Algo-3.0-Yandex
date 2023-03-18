@@ -1,0 +1,28 @@
+edu_stack = []
+input_file = open('input.txt', 'r')
+for line in input_file.readlines():
+    command = line.strip()
+    if 'push' in command:
+        push_value = command.split(' ')[1]
+        edu_stack.append(push_value)
+        print('ok')
+    elif 'pop' in command:
+        if len(edu_stack) != 0:
+            last_value = edu_stack[-1]
+            edu_stack.pop()
+            print(last_value)
+        else:
+            print('error')
+    elif 'back' in command:
+        if len(edu_stack) != 0:
+            print(edu_stack[-1])
+        else:
+            print('error')
+    elif 'size' in command:
+        print(len(edu_stack))
+    elif 'clear' in command:
+        edu_stack.clear()
+        print('ok')
+    elif 'exit' in command:
+        print('bye')
+        break
