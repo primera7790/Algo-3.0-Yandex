@@ -1,0 +1,30 @@
+brackets_sequence = input()
+stack = []
+if len(brackets_sequence) == 0:
+    print('yes')
+else:
+    count = 0
+    status = ''
+    for bracket in brackets_sequence:
+        if bracket in ('(', '[', '{'):
+            stack.append(bracket)
+            count += 1
+            continue
+        elif len(stack) > 0:
+            if (bracket == ')' and stack[-1] == '(') or\
+                    (bracket == ']' and stack[-1] == '[') or\
+                    (bracket == '}' and stack[-1] == '{'):
+                stack.pop()
+                count -= 1
+            elif (bracket == ')' and stack[-1] != '(') or\
+                    (bracket == ']' and stack[-1] != '[') or\
+                    (bracket == '}' and stack[-1] != '{'):
+                status = 'error'
+                break
+        elif len(stack) <= 0:
+            status = 'error'
+            break
+    if count == 0 and status == '':
+        print('yes')
+    else:
+        print('no')
