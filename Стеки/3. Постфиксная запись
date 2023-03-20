@@ -1,0 +1,26 @@
+def action(sum_action=False, dif_action=False, mult_action=False):
+    ans_before = 0
+    if sum_action:
+        ans_before = int(stack[-2]) + int(stack[-1])
+    if dif_action:
+        ans_before = int(stack[-2]) - int(stack[-1])
+    if mult_action:
+        ans_before = int(stack[-2]) * int(stack[-1])
+    stack.pop()
+    stack.pop()
+    stack.append(str(ans_before))
+
+
+input_postfix = input().strip().split(' ')
+stack = []
+for sym in input_postfix:
+    if sym.isdigit():
+        stack.append(sym)
+    else:
+        if sym == '+':
+            action(sum_action=True)
+        if sym == '-':
+            action(dif_action=True)
+        if sym == '*':
+            action(mult_action=True)
+print(stack[-1])
