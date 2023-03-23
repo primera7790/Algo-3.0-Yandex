@@ -1,0 +1,20 @@
+max_wagon_num = int(input())
+wagon_sequence = input().split(' ')
+second_way = []
+deadlock = []
+next_to_second_way = 1
+
+for wagon in wagon_sequence:
+    deadlock.append(wagon)
+    while True:
+        if len(deadlock) > 0 and int(deadlock[-1]) == next_to_second_way:
+            second_way.append(next_to_second_way)
+            next_to_second_way += 1
+            deadlock.pop()
+        else:
+            break
+
+if len(second_way) > 0 and int(second_way[-1]) == max_wagon_num:
+    print('YES')
+else:
+    print('NO')
