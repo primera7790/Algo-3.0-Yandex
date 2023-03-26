@@ -1,0 +1,19 @@
+total_num_cities = int(input())
+life_levels = input().split(' ')
+stack = []
+ans = ['0'] * total_num_cities
+stack.append([life_levels[0], 0])
+for lvl_idx in range(1, len(life_levels)):
+    if int(life_levels[lvl_idx]) >= int(life_levels[lvl_idx - 1]):
+        stack.append([life_levels[lvl_idx], lvl_idx])
+    else:
+        for i in stack[::-1]:
+            if int(i[0]) > int(life_levels[lvl_idx]):
+                ans[i[1]] = str(lvl_idx)
+                stack.pop()
+            else:
+                break
+        stack.append([life_levels[lvl_idx], lvl_idx])
+for j in stack:
+    ans[j[1]] = '-1'
+print(' '.join(ans))
