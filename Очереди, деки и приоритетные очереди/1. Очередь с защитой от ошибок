@@ -1,0 +1,33 @@
+queue = []
+idx_min = 0
+idx_max = 0
+file = open('input.txt', 'r')
+for i in file.readlines():
+    command = i.strip()
+    if 'push' in command:
+        queue.append(command.split(' ')[1])
+        idx_max += 1
+        print('ok')
+    elif 'pop' in command:
+        if idx_max - idx_min == 0:
+            print('error')
+        else:
+            print(queue[idx_min])
+            queue[idx_min] = 0
+            idx_min += 1
+    elif 'front' in command:
+        if idx_max - idx_min == 0:
+            print('error')
+        else:
+            print(queue[idx_min])
+    elif 'size' in command:
+        print(idx_max - idx_min)
+    elif 'clear' in command:
+        queue.clear()
+        idx_min = 0
+        idx_max = 0
+        print('ok')
+    elif 'exit' in command:
+        print('bye')
+        break
+file.close()
