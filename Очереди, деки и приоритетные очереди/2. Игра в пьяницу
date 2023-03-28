@@ -1,0 +1,32 @@
+queue_first = input().strip().split(' ')
+queue_second = input().strip().split(' ')
+count = 0
+head_first = 0
+tail_first = 4
+head_second = 0
+tail_second = 4
+while tail_first + 1 - head_first > 0 and tail_second + 1 - head_second > 0 and count < 10**6:
+    pair_on_top = [queue_first[head_first], queue_second[head_second]]
+    zero_pair = []
+    if '0' in pair_on_top and '9' in pair_on_top:
+        for i in pair_on_top:
+            if i == '0':
+                i = '10'
+            zero_pair.append(i)
+    else:
+        zero_pair = pair_on_top
+    if int(zero_pair[0]) > int(zero_pair[1]):
+        queue_first.extend(pair_on_top)
+        tail_first += 2
+        head_first += 1
+        head_second += 1
+    else:
+        queue_second.extend(pair_on_top)
+        tail_second += 2
+        head_second += 1
+        head_first += 1
+    count += 1
+if count == 10**6:
+    print('botva')
+else:
+    print('first' if tail_second + 1 - head_second == 0 else 'second', count, sep=' ')
