@@ -1,0 +1,56 @@
+file = open('input.txt', 'r')
+deque = [''] * 300
+idx_front = 299
+for line in file.readlines():
+    command = line.strip()
+    if 'push_front' in command:
+        if idx_front < 0:
+            idx_front = 299
+            deque_copy = deque
+            deque = [''] * 300
+            for i in range(len(deque_copy)):
+                deque.append(deque_copy[i])
+            deque[idx_front] = command.split(' ')[1]
+            idx_front -= 1
+        else:
+            deque[idx_front] = command.split(' ')[1]
+            idx_front -= 1
+        print('ok')
+
+    elif 'push_back' in command:
+        deque.append(command.split(' ')[1])
+        print('ok')
+    elif 'pop_front' in command:
+        if len(deque) - idx_front > 1:
+            print(deque[idx_front + 1])
+            deque[idx_front + 1] = ''
+            idx_front += 1
+        else:
+            print('error')
+    elif 'pop_back' in command:
+        if len(deque) - idx_front > 1:
+            print(deque[-1])
+            deque.pop()
+        else:
+            print('error')
+    elif 'front' in command:
+        if len(deque) - idx_front > 1:
+            print(deque[idx_front + 1])
+        else:
+            print('error')
+    elif 'back' in command:
+        if len(deque) - idx_front > 1:
+            print(deque[-1])
+        else:
+            print('error')
+    elif 'size' in command:
+        print(len(deque) - idx_front - 1)
+    elif 'clear' in command:
+        deque = [''] * 300
+        idx_front = 299
+        idx_back = 300
+        print('ok')
+    elif 'exit' in command:
+        print('bye')
+        break
+file.close()
