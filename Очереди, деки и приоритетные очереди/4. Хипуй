@@ -1,0 +1,27 @@
+qnt_commands = int(input())
+heap = []
+for idx_command in range(qnt_commands):
+    command = input().split(' ')
+    if int(command[0]) == 0:
+        heap.append(int(command[1]))
+        idx_element = len(heap) - 1
+        while idx_element > 0 and heap[(idx_element - 1) // 2] < heap[idx_element]:
+            heap[(idx_element - 1) // 2], heap[idx_element] = heap[idx_element], heap[(idx_element - 1) // 2]
+            idx_element = (idx_element - 1) // 2
+    if int(command[0]) == 1:
+        heap[-1], heap[0] = heap[0], heap[-1]
+        print(heap[-1])
+        heap.pop()
+        idx_element = 0
+        while idx_element * 2 + 2 < len(heap):
+            idx_max_son = idx_element * 2 + 1
+            if heap[idx_max_son] < heap[idx_element * 2 + 2]:
+                idx_max_son = idx_element * 2 + 2
+            if heap[idx_element] < heap[idx_max_son]:
+                heap[idx_element], heap[idx_max_son] = heap[idx_max_son], heap[idx_element]
+                idx_element = idx_max_son
+            else:
+                break
+        if idx_element * 2 + 1 < len(heap):
+            if heap[idx_element] < heap[idx_element * 2 + 1]:
+                heap[idx_element], heap[idx_element * 2 + 1] = heap[idx_element * 2 + 1], heap[idx_element]
