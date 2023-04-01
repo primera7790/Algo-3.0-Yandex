@@ -1,0 +1,36 @@
+file = open('input.txt', 'r')
+elements_count = int(file.readline())
+array = file.readline().split(' ')
+file.close()
+last_heap_idx = len(array) - 1
+element_idx = len(array) - 1
+while last_heap_idx > 1:
+    while element_idx >= 0:
+        current_position = element_idx
+        while current_position * 2 + 1 <= last_heap_idx:
+            max_son_idx = current_position * 2 + 1
+            if (current_position * 2 + 2 <= last_heap_idx) and (int(array[current_position * 2 + 2]) > int(array[max_son_idx])):
+                max_son_idx = current_position * 2 + 2
+            if int(array[current_position]) < int(array[max_son_idx]):
+                array[current_position], array[max_son_idx] = array[max_son_idx], array[current_position]
+            current_position = max_son_idx
+        element_idx -= 1
+        current_position = element_idx
+    last_heap_idx -= 1
+new_first_idx = 0
+left_seq_idx = len(array) - 1
+while left_seq_idx > 1:
+    array[0], array[left_seq_idx] = array[left_seq_idx], array[0]
+    while (new_first_idx * 2 + 1) < left_seq_idx:
+        max_son_idx = new_first_idx * 2 + 1
+        if (new_first_idx * 2 + 2 < left_seq_idx) and (int(array[new_first_idx * 2 + 2]) > int(array[max_son_idx])):
+            max_son_idx = new_first_idx * 2 + 2
+        if int(array[new_first_idx]) < int(array[max_son_idx]):
+            array[new_first_idx], array[max_son_idx] = array[max_son_idx], array[new_first_idx]
+        new_first_idx = max_son_idx
+    new_first_idx = 0
+    left_seq_idx -= 1
+if len(array) > 1:
+    if int(array[0]) > int(array[1]):
+        array[0], array[1] = array[1], array[0]
+print(' '.join(array))
