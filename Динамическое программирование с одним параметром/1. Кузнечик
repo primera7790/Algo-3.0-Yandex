@@ -1,0 +1,10 @@
+input_data = input().split(' ')
+len_desk = int(input_data[0])
+max_len_jump = int(input_data[1])
+array = [0] * (len_desk + max_len_jump - 1)
+first_step = len(array) - len_desk
+array[first_step] = 1
+for i in range(max_len_jump, len(array)):
+    for j in range(1, max_len_jump + 1):
+        array[i] += array[i-j]
+print(array[len_desk + max_len_jump - 2])
