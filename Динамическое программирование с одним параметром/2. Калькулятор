@@ -1,0 +1,37 @@
+def min_actions(target):
+    if target != 1:
+        repeats = 0
+        before_multi = int(target / 3 - 1 if target / 3 - 1 >= 0 and target % 3 == 0 else target - 1)
+        before_double = int(target / 2 - 1 if target / 2 - 1 >= 0 and target % 2 == 0 else target - 1)
+        if target % 3 == 0 and dp[before_multi] <= dp[before_double] and dp[before_multi] <= dp[target - 1 - 1]:
+            new_target = int(target / 3)
+        if target % 2 == 0 and dp[before_double] <= dp[before_multi] and dp[before_double] <= dp[target - 1 - 1]:
+            new_target = int(target / 2)
+        if dp[target - 1 - 1] <= dp[before_multi] and dp[target - 1 - 1] <= dp[before_double]:
+            new_target = target - 1
+        repeats += 1
+        count_repeats = min_actions(new_target) + repeats
+        ans_seq.append(target)
+        return count_repeats
+    else:
+        ans_seq.append(target)
+        return 0
+
+
+target_num = int(input())
+dp = [target_num] * target_num
+dp[0] = 0
+for num in range(len(dp)):
+    next_rise = (num + 1) + 1
+    next_double = (num + 1) * 2
+    next_triple = (num + 1) * 3
+
+    if next_rise <= len(dp) and dp[next_rise - 1] > dp[num]:
+        dp[next_rise - 1] = dp[num] + 1
+    if next_double <= len(dp) and dp[next_double - 1] > dp[num]:
+        dp[next_double - 1] = dp[num] + 1
+    if next_triple <= len(dp) and dp[next_triple - 1] > dp[num]:
+        dp[next_triple - 1] = dp[num] + 1
+
+ans_seq = []
+print(min_actions(target_num), ' '.join(map(str, ans_seq)), sep='\n')
