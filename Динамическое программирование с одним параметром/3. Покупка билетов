@@ -1,0 +1,20 @@
+file = open('input.txt', 'r')
+quan_buyers = int(file.readline().strip())
+
+A = [3601] * (quan_buyers + 3)
+B = [3601] * (quan_buyers + 3)
+C = [3601] * (quan_buyers + 3)
+dp = [0] * (quan_buyers + 3)
+
+for j in range(3, 3 + quan_buyers):
+    array = file.readline().strip().split(' ')
+    A[j] = int(array[0])
+    B[j] = int(array[1])
+    C[j] = int(array[2])
+
+count = 3
+while count <= quan_buyers + 2:
+    dp[count] = min((dp[count - 1] + A[count]), (dp[count - 2] + B[count - 1]), (dp[count - 3] + C[count - 2]))
+    count += 1
+
+print(dp[-1])
