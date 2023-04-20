@@ -1,0 +1,21 @@
+def threads(nail):
+    if nail < quantity:
+        dp[nail] = min(dp[nail - 2] + (seq[nail] - seq[nail - 1]), dp[nail - 1] + (seq[nail] - seq[nail - 1]))
+        nail += 1
+        threads(nail)
+        return
+    else:
+        return
+
+
+quantity = int(input())
+sequence = list(map(int, input().split()))
+
+seq = sorted(sequence)
+dp = [0] * (quantity)
+dp[0] = 10001
+dp[1] = seq[1] - seq[0]
+first_nail = 2
+threads(first_nail)
+
+print(dp[-1])
