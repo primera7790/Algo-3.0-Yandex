@@ -1,0 +1,38 @@
+def hunger(N, M, dp):
+    if N >= len(dp) or M >= len(dp[0]):
+        return dp
+    if N == 1 and M == 1:
+        dp[1][1] = matrix[1][1]
+        hunger(N, M + 1, dp)
+        return dp
+    elif N == 1:
+        dp[N][M] = dp[N][M - 1] + matrix[N][M]
+        hunger(N, M + 1, dp)
+        return dp
+    elif M == 1:
+        dp[N][M] = dp[N - 1][M] + matrix[N][M]
+        hunger(N, M + 1, dp)
+        return dp
+    dp[N][M] = dp[N - 1][M] + matrix[N][M] if dp[N - 1][M] < dp[N][M - 1] else dp[N][M - 1] + matrix[N][M]
+    hunger(N, M + 1, dp)
+    return dp
+
+
+file = open('input.txt', 'r')
+first_line = file.readline().strip().split(' ')
+N = int(first_line[0])
+M = int(first_line[1])
+
+matrix = [[0] for _ in range(N + 1)]
+matrix[0] = [0] * (M + 1)
+count = 1
+for line in file.readlines():
+    if line != '':
+        matrix[count].extend(map(int, line.strip().split(' ')))
+        count += 1
+
+dp = [[0] * (M + 1) for _ in range(N + 1)]
+for l in range(1, N + 1):
+    dp = hunger(l, 1, dp)
+    
+print(dp[N][M])
