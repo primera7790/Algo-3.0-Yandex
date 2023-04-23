@@ -1,0 +1,28 @@
+train = []
+with open('input.txt', 'r') as file:
+    quan_operations = int(file.readline().strip())
+    
+    while quan_operations > 0:
+        command = file.readline().strip().split()
+        if command[0] == 'add':
+            quan_to_add = int(command[1])
+            type_to_add = command[2]
+            train += [[quan_to_add, type_to_add]]
+
+        elif command[0] == 'delete':
+            quan_to_add = int(command[1])
+
+            while quan_to_add > 0 and train:
+                last = train.pop()
+                if last[0] > quan_to_add:
+                    train += [[last[0] - quan_to_add, last[1]]]
+                quan_to_add -= last[0]
+
+        elif command[0] == 'get':
+            type_to_add = command[1]
+            ans = 0
+            for wagon in train:
+                if wagon[1] == type_to_add:
+                    ans += wagon[0]
+            print(ans)
+        quan_operations -= 1
