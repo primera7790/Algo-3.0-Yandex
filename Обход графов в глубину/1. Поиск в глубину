@@ -1,0 +1,27 @@
+def dfs(verticals, point):
+    verticals[point] = True
+    for neigh in vert[point]:
+        if not verticals[neigh]:
+            dfs(verticals, neigh)
+    comp.append(point)
+
+
+file = open('input.txt', 'r')
+first_string = file.readline().strip().split(' ')
+quan_v = int(first_string[0])
+quan_e = int(first_string[1])
+
+vert = [[] for _ in range(quan_v + 1)]
+for edge in file.readlines():
+    if edge.strip():
+        line = edge.strip().split(' ')
+        vert[int(line[0])].append(int(line[1]))
+        vert[int(line[1])].append(int(line[0]))
+
+roadmap = [False] * (quan_v + 1)
+first_point = 1
+comp = []
+
+dfs(roadmap, first_point)
+
+print(len(comp), ' '.join(map(str, sorted(comp))), sep='\n')
