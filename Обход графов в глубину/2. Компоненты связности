@@ -1,0 +1,43 @@
+import sys
+
+sys.setrecursionlimit(100001)
+
+def dfs(verticals, point, comp_num):
+    verticals[point] = True
+    comp[point] = comp_num
+    for neigh in vert[point]:
+        if not verticals[neigh]:
+            dfs(verticals, neigh, comp_num)
+
+
+file = open('input.txt', 'r')
+first_string = file.readline().strip().split(' ')
+quan_v = int(first_string[0])
+quan_e = int(first_string[1])
+
+vert = [[] for _ in range(quan_v + 1)]
+for edge in file.readlines():
+    if edge.strip():
+        line = edge.strip().split(' ')
+        vert[int(line[0])].append(int(line[1]))
+        vert[int(line[1])].append(int(line[0]))
+
+roadmap = [False] * (quan_v + 1)
+comp = [0] * (quan_v + 1)
+
+first_point = 1
+
+count = 1
+for i in range(1, quan_v + 1):
+    if comp[i] == 0:
+        dfs(roadmap, i, count)
+        count += 1
+
+in_comp = [[] for _ in range(count)]
+for j in range(1, len(comp)):
+    in_comp[comp[j]].append(j)
+
+print(count - 1)
+for k in range(1, len(in_comp)):
+    print(len(in_comp[k]))
+    print(' '.join(map(str, in_comp[k])))
