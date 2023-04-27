@@ -1,0 +1,30 @@
+def dfs(verticals, point, color):
+    verticals[point] = color
+    for neigh in vert[point]:
+        if not verticals[neigh]:
+            dfs(verticals, neigh, 3 - verticals[point])
+        elif verticals[neigh] == verticals[point]:
+            print('NO')
+            exit()
+
+
+file = open('input.txt', 'r')
+first_string = file.readline().strip().split(' ')
+quan_v = int(first_string[0])
+quan_e = int(first_string[1])
+
+vert = [[] for _ in range(quan_v + 1)]
+for edge in file.readlines():
+    if edge.strip():
+        line = edge.strip().split(' ')
+        vert[int(line[0])].append(int(line[1]))
+        vert[int(line[1])].append(int(line[0]))
+
+roadmap = [False] * (quan_v + 1)
+first_point = 1
+
+for i in range(1, quan_v + 1):
+    if not roadmap[i]:
+        dfs(roadmap, i, 1)
+
+print('YES')
