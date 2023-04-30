@@ -1,0 +1,68 @@
+file = open('input.txt', 'r')
+first_string = file.readline().strip().split(' ')
+quan_v = int(first_string[0])
+quan_e = int(first_string[1])
+
+vert = [[] for _ in range(quan_v + 1)]
+for edge in file.readlines():
+    if edge.strip():
+        line = edge.strip().split(' ')
+        vert[int(line[0])].append(int(line[1]))
+
+roadmap = [0] * (quan_v + 1)
+
+topology_total = []
+for i in range(1, quan_v + 1):
+    if not roadmap[i]:
+        topology_raw = []
+
+        stack = []
+        stack.append({'verticals': roadmap, 'point': i, 'color': 1, 'label_from': 0})
+        while len(stack) > 0:
+            local_vars = stack[-1]
+            label_from = local_vars['label_from']
+            if label_from <= 0:
+                local_vars['verticals'][local_vars['point']] = local_vars['color']
+                if len(vert[local_vars['point']]) == 0 or local_vars['verticals'][local_vars['point']] == 2:
+                    topology_raw.append(str(local_vars['point']))
+                    local_vars['verticals'][local_vars['point']] = 3 - local_vars['color']
+                    stack.pop()
+                    continue
+                for neigh in vert[local_vars['point']]:
+                    if local_vars['verticals'][neigh] == local_vars['color']:
+                        print('-1')
+                        exit()
+                    elif local_vars['verticals'][neigh] == 3 - local_vars['color']:
+                        continue
+                    elif local_vars['verticals'][neigh] == 0:
+                        stack.append({'verticals': roadmap, 'point': neigh, 'color': 1, 'label_from': 0})
+                        break
+                local_vars['label_from'] = 1
+                continue
+            if label_from <= 1:
+                new_element = False
+                neigh_idx = 0
+                while neigh_idx < len(vert[local_vars['point']]):
+                    element_idx = vert[local_vars['point']][neigh_idx]
+                    color = local_vars['color']
+                    if local_vars['verticals'][element_idx] == color:
+                        print('-1')
+                        exit()
+                    elif local_vars['verticals'][element_idx] == 3 - local_vars['color']:
+                        neigh_idx += 1
+                        continue
+                    elif local_vars['verticals'][element_idx] == 0:
+                        stack.append({'verticals': roadmap, 'point': element_idx, 'color': 1, 'label_from': 0})
+                        local_vars['label_from'] = 1
+                        new_element = True
+                        break
+                if new_element:
+                    continue
+                else:
+                    topology_raw.append(str(local_vars['point']))
+                    local_vars['verticals'][local_vars['point']] = 3 - local_vars['color']
+                    stack.pop()
+                    continue
+        topology_total.extend(topology_raw)
+
+print(' '.join(map(str, list(reversed(topology_total)))))
