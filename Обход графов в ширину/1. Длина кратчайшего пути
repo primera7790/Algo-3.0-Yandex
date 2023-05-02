@@ -1,0 +1,37 @@
+def bfs(status, breadth, prev):
+    if breadth - 1 >= len(radius_list):
+        return
+    for rad in radius_list[breadth - 1]:
+        for neigh in range(1, len(matrix[rad])):
+            if rad == prev[neigh]:
+                continue
+            elif matrix[rad][neigh] == 1:
+                if status[neigh] >= breadth:
+                    if len(radius_list) <= breadth:
+                        radius_list.append([])
+                    radius_list[breadth].append(neigh)
+                    status[neigh] = breadth
+    bfs(status, breadth+1, prev_list)
+
+
+file = open('input.txt', 'r')
+quan_v = int(file.readline().strip())
+
+matrix = [[0] for _ in range(quan_v + 1)]
+
+for i in range(1, quan_v + 1):
+    matrix[i].extend(map(int, file.readline().strip().split(' ')))
+
+last_line = file.readline().strip().split(' ')
+
+start_v = int(last_line[0])
+end_v = int(last_line[1])
+
+status_list = [quan_v + 1] * (quan_v + 1)
+status_list[start_v] = 0
+radius_list = [[start_v]]
+prev_list = [0] * (quan_v + 1)
+
+bfs(status_list, 1, prev_list)
+
+print(status_list[end_v] if status_list[end_v] < (quan_v + 1) else '-1')
